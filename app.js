@@ -35,10 +35,10 @@ class GoodBeaconNews {
 
       // Filter for positive news
       this.currentNews = {
-        general: this.filterPositiveNews(general),
-        tech: this.filterPositiveNews(tech),
-        health: this.filterPositiveNews(health),
-        us: this.filterPositiveNews(us),
+        general: this.filterPositiveNews(general, true),
+        tech: this.filterPositiveNews(tech, true),
+        health: this.filterPositiveNews(health, true),
+        us: this.filterPositiveNews(us, true),
       };
 
       // Render all sections
@@ -61,17 +61,28 @@ class GoodBeaconNews {
   async fetchNews(category) {
     // If no API key, use mock data
     if (!this.apiKey || this.apiKey === "YOUR_NEWS_API_KEY") {
+      console.log("Using mock data for category:", category);
       return this.getMockNews(category);
     }
 
-    const url = `${this.baseUrl}/top-headlines?country=us&category=${category}&pageSize=20&apiKey=${this.apiKey}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.articles || [];
+    try {
+      const url = `${this.baseUrl}/top-headlines?country=us&category=${category}&pageSize=20&apiKey=${this.apiKey}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      return data.articles || [];
+    } catch (error) {
+      console.error("API fetch failed, using mock data:", error);
+      return this.getMockNews(category);
+    }
   }
 
   // Filter for positive news keywords
-  filterPositiveNews(articles) {
+  filterPositiveNews(articles, isMockData = false) {
+    // If using mock data or no API key, return all articles (they're pre-filtered as positive)
+    if (isMockData || !this.apiKey || this.apiKey === "YOUR_NEWS_API_KEY") {
+      return articles.slice(0, 12);
+    }
+
     const positiveKeywords = [
       "breakthrough",
       "success",
