@@ -5,7 +5,7 @@
 
 class GoodBeaconNews {
   constructor() {
-    this.apiKey = "ba7ddbd4a10a40e6a731d3fc49db9f9c"; // Get free key from newsapi.org
+    this.apiKey = "YOUR_NEWS_API_KEY"; // Get free key from newsapi.org
     this.baseUrl = "https://newsapi.org/v2";
     this.updateInterval = 10 * 60 * 1000; // 10 minutes
     this.currentNews = [];
