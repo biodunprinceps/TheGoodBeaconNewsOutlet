@@ -1,11 +1,21 @@
 {
-  "version": 2,
-  "builds": [{
-    "src": "index.html",
-    "use": "@vercel/static"
+  "rewrites": [{
+    "source": "/(.*)",
+    "destination": "/"
   }],
-  "routes": [{
-    "src": "/(.*)",
-    "dest": "/$1"
-  }]
+  "headers": [{
+      "source": "/styles.css",
+      "headers": [{
+        "key": "Content-Type",
+        "value": "text/css"
+      }]
+    },
+    {
+      "source": "/app.js",
+      "headers": [{
+        "key": "Content-Type",
+        "value": "application/javascript"
+      }]
+    }
+  ]
 }
