@@ -1,0 +1,570 @@
+/* ===================================
+   THE GOOD BEACON - MODERN NEWS DESIGN
+   Inspired by The Verge, Vox, Axios
+   Clean, Bold, No Shadows
+   =================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Brand Colors */
+  --primary-orange: #ffa500;
+  --orange-dark: #ff8c00;
+  --bright-coral: #ff6b6b;
+  --sky-blue: #4a90e2;
+  --mint-green: #51cf66;
+  --purple: #9b59b6;
+  --yellow: #f1c40f;
+
+  /* Neutrals */
+  --black: #000000;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --text-light: #9b9b9b;
+  --bg-white: #ffffff;
+  --bg-gray: #f8f9fa;
+  --border-gray: #e5e5e5;
+
+  /* Category Colors */
+  --accent-tech: #7c3aed;
+  --accent-health: #ef4444;
+  --accent-business: #fbbf24;
+  --accent-science: #06b6d4;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg-white);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===================================
+   HEADER
+   =================================== */
+
+.main-header {
+  background: var(--bg-white);
+  border-bottom: 3px solid var(--primary-orange);
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.main-header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: -1px;
+}
+
+.logo h1::before {
+  content: '🌟 ';
+}
+
+.tagline {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.main-nav {
+  display: flex;
+  gap: 32px;
+}
+
+.main-nav a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 8px 0;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+
+.main-nav a:hover {
+  color: var(--primary-orange);
+  border-bottom-color: var(--primary-orange);
+}
+
+/* ===================================
+   BREAKING TICKER
+   =================================== */
+
+.breaking-ticker {
+  background: var(--black);
+  color: var(--bg-white);
+  padding: 12px 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ticker-label {
+  background: var(--primary-orange);
+  padding: 6px 16px;
+  font-weight: 800;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.ticker-content {
+  flex: 1;
+  white-space: nowrap;
+  animation: scroll 40s linear infinite;
+  font-size: 0.9375rem;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* ===================================
+   HERO SECTION
+   =================================== */
+
+.hero-section {
+  padding: 48px 0;
+}
+
+.hero-section .container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+}
+
+.hero-main {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-gray);
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: 1px solid var(--border-gray);
+}
+
+.hero-main:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary-orange);
+}
+
+.hero-image {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+  color: var(--bg-white);
+  padding: 40px 32px;
+}
+
+.hero-category {
+  background: var(--primary-orange);
+  color: var(--black);
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hero-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.hero-content p {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.hero-meta {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.hero-sidebar h3 {
+  background: var(--black);
+  color: var(--bg-white);
+  padding: 16px 20px;
+  font-size: 1.125rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#trending-stories {
+  background: var(--bg-white);
+  border: 1px solid var(--border-gray);
+  border-top: none;
+}
+
+.trending-item {
+  padding: 20px;
+  border-bottom: 1px solid var(--border-gray);
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  gap: 16px;
+}
+
+.trending-item:last-child {
+  border-bottom: none;
+}
+
+.trending-item:hover {
+  background: var(--bg-gray);
+}
+
+.trending-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  background: var(--primary-orange);
+  color: var(--bg-white);
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.trending-item h4 {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.trending-item .meta {
+  font-size: 0.8125rem;
+  color: var(--text-light);
+}
+
+/* ===================================
+   NEWS SECTIONS
+   =================================== */
+
+.main-content {
+  background: var(--bg-gray);
+  padding: 48px 0;
+}
+
+.news-section {
+  margin-bottom: 64px;
+  background: var(--bg-white);
+  padding: 32px;
+  border: 1px solid var(--border-gray);
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--black);
+  font-size: 1.875rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  position: relative;
+}
+
+.section-title span:first-child::after {
+  content: '';
+  position: absolute;
+  bottom: -19px;
+  left: 0;
+  width: 100px;
+  height: 3px;
+  background: var(--primary-orange);
+}
+
+.update-time {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.news-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-gray);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-card:hover {
+  border-color: var(--primary-orange);
+  transform: translateY(-2px);
+}
+
+.news-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  background: var(--bg-gray);
+}
+
+.news-card-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-card-category {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--bg-white);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.category-us {
+  background: var(--sky-blue);
+}
+
+.category-tech {
+  background: var(--accent-tech);
+}
+
+.category-health {
+  background: var(--accent-health);
+}
+
+.category-environment {
+  background: var(--mint-green);
+}
+
+.category-business {
+  background: var(--accent-business);
+  color: var(--black);
+}
+
+.category-science {
+  background: var(--accent-science);
+}
+
+.news-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.news-card p {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin-bottom: auto;
+  line-height: 1.5;
+}
+
+.news-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8125rem;
+  color: var(--text-light);
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid var(--border-gray);
+  font-weight: 500;
+}
+
+.news-source {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ===================================
+   FOOTER
+   =================================== */
+
+.main-footer {
+  background: var(--black);
+  color: var(--bg-white);
+  padding: 48px 0 32px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 32px;
+}
+
+.footer-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  font-weight: 800;
+}
+
+.footer-section h4 {
+  font-size: 1.125rem;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 8px;
+}
+
+.footer-section a {
+  color: var(--bg-white);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.footer-section a:hover {
+  opacity: 1;
+}
+
+/* ===================================
+   LOADING
+   =================================== */
+
+.loading-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border-gray);
+  padding: 48px;
+  text-align: center;
+}
+
+.loading-spinner {
+  border: 4px solid var(--border-gray);
+  border-top: 4px solid var(--primary-orange);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 1024px) {
+  .hero-section .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-header .container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .logo h1 {
+    font-size: 2rem;
+  }
+
+  .main-nav {
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .news-section {
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .logo h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-image {
+    height: 300px;
+  }
+
+  .hero-content h2 {
+    font-size: 1.5rem;
+  }
+}

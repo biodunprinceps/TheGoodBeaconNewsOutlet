@@ -1,0 +1,22 @@
+# Environment variables
+.env
+.env.local
+
+# API Keys (keep your keys safe!)
+config.js
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Node modules (if you add build tools later)
+node_modules/
