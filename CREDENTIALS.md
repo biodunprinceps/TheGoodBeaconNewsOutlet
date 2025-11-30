@@ -463,6 +463,358 @@ git push origin main
 
 ---
 
+## ☁️ Deployment to Production
+
+### 🆓 100% FREE Deployment Options (Like Vercel)
+
+#### Option 1: Render.com (100% Free Forever - RECOMMENDED)
+
+**What's Free:**
+
+-   ✅ Web Service (512MB RAM)
+-   ✅ PostgreSQL Database (expires every 90 days, create new one)
+-   ✅ Redis Instance (25MB)
+-   ✅ SSL Certificates
+-   ✅ Custom Domains
+-   ✅ Auto-deploy from GitHub
+
+**Trade-offs:**
+
+-   ⚠️ App sleeps after 15min inactivity (wakes in ~30 seconds)
+-   ⚠️ PostgreSQL expires every 90 days (just create a new one)
+-   ✅ Perfect for testing/development
+
+**Quick Deploy:**
+
+1. Go to https://render.com
+2. Sign up with GitHub
+3. "New" → "Web Service" → Connect your repo
+4. Runtime: **Docker**
+5. Create PostgreSQL (free tier)
+6. Create Redis (free tier)
+7. Add environment variables
+8. Click "Deploy"
+
+**Start Command:**
+
+```bash
+php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+```
+
+---
+
+#### Option 2: Railway.app ($5/month Free Credit)
+
+**What's Free:**
+
+-   ✅ $5 monthly credit (usually enough!)
+-   ✅ PostgreSQL, Redis included
+-   ✅ SSL, Custom domains
+-   ✅ No sleep/downtime
+-   ✅ Better performance than Render free tier
+
+**Quick Deploy:**
+
+```bash
+brew install railway
+railway login
+railway init
+railway up
+```
+
+**Cost:** FREE if you stay under $5/month
+
+---
+
+#### Option 3: Fly.io (Free Tier)
+
+**What's Free:**
+
+-   ✅ 3 shared CPUs
+-   ✅ 256MB RAM
+-   ✅ 1GB PostgreSQL
+-   ✅ SSL certificates
+
+**Quick Deploy:**
+
+```bash
+curl -L https://fly.io/install.sh | sh
+fly auth login
+fly launch
+fly deploy
+```
+
+---
+
+### 💰 Cost Comparison vs Vercel
+
+| Platform    | Free Tier  | Sleeps?        | Database      | Like Vercel?    |
+| ----------- | ---------- | -------------- | ------------- | --------------- |
+| **Render**  | ✅ Forever | ⚠️ Yes (15min) | ✅ Free       | ✅ Most similar |
+| **Railway** | $5 credit  | ❌ No          | ✅ Included   | ⚠️ Better value |
+| **Fly.io**  | ✅ Forever | ❌ No          | ✅ Free (1GB) | ⚠️ Technical    |
+| **Vercel**  | ✅ Forever | ❌ No          | ❌ None       | ❌ No Laravel   |
+
+---
+
+### Recommended Platforms for Laravel + Docker
+
+#### Option 1: Railway.app (Easiest - Recommended)
+
+**Why Railway:**
+
+-   ✅ Native Docker support
+-   ✅ PostgreSQL & Redis included
+-   ✅ $5/month free credit
+-   ✅ Auto-deploy from GitHub
+-   ✅ Custom domains with SSL
+
+**Deploy Steps:**
+
+```bash
+# 1. Install Railway CLI
+brew install railway
+
+# 2. Login to Railway
+railway login
+
+# 3. Create new project
+railway init
+
+# 4. Add PostgreSQL
+railway add --database postgres
+
+# 5. Add Redis
+railway add --database redis
+
+# 6. Set environment variables
+railway variables set APP_ENV=production
+railway variables set APP_DEBUG=false
+railway variables set APP_KEY=base64:tmOZftncO+UnCUXA18z9DOeYkS21ZHxykP5o05Mh25I=
+
+# 7. Deploy
+railway up
+
+# 8. Run migrations
+railway run php artisan migrate --force
+railway run php artisan db:seed
+```
+
+**Or Deploy via Dashboard:**
+
+1. Go to https://railway.app
+2. "New Project" → "Deploy from GitHub"
+3. Select `TheGoodBeaconNewsOutlet` repository
+4. Add PostgreSQL & Redis services
+5. Configure environment variables
+6. Deploy automatically
+
+---
+
+#### Option 2: Render.com (Best Free Tier)
+
+**Why Render:**
+
+-   ✅ Free PostgreSQL database
+-   ✅ Free Redis instance
+-   ✅ Auto SSL certificates
+-   ✅ Zero-downtime deploys
+
+**Deploy Steps:**
+
+1. Go to https://render.com
+2. "New" → "Web Service"
+3. Connect GitHub repository
+4. Select "Docker" as runtime
+5. Add environment variables:
+    ```
+    APP_ENV=production
+    APP_DEBUG=false
+    APP_KEY=base64:tmOZftncO+UnCUXA18z9DOeYkS21ZHxykP5o05Mh25I=
+    ```
+6. Create PostgreSQL database (free tier)
+7. Create Redis instance (free tier)
+8. Deploy
+
+**Build Command:**
+
+```bash
+docker build -t good-beacon-cms .
+```
+
+**Start Command:**
+
+```bash
+php artisan serve --host=0.0.0.0 --port=$PORT
+```
+
+---
+
+#### Option 3: DigitalOcean App Platform (Most Reliable)
+
+**Why DigitalOcean:**
+
+-   ✅ Proven reliability
+-   ✅ Managed databases
+-   ✅ $5/month starter plan
+-   ✅ Great documentation
+
+**Deploy Steps:**
+
+1. Go to https://cloud.digitalocean.com/apps
+2. "Create App" → "GitHub"
+3. Select repository
+4. Choose "Dockerfile" as source
+5. Add Managed PostgreSQL ($15/month or dev database $7/month)
+6. Add Managed Redis ($15/month or dev instance $7/month)
+7. Set environment variables
+8. Deploy
+
+---
+
+#### Option 4: Fly.io (Global Edge Deployment)
+
+**Why Fly.io:**
+
+-   ✅ Deploy globally
+-   ✅ Fast performance
+-   ✅ Docker-native
+-   ✅ Free tier
+
+**Deploy Steps:**
+
+```bash
+# 1. Install Fly CLI
+curl -L https://fly.io/install.sh | sh
+
+# 2. Login
+fly auth login
+
+# 3. Launch app
+fly launch
+
+# 4. Add PostgreSQL
+fly postgres create
+
+# 5. Add Redis
+fly redis create
+
+# 6. Deploy
+fly deploy
+```
+
+---
+
+### Pre-Deployment Checklist
+
+Before deploying to production:
+
+```bash
+# 1. Update .env for production
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-domain.com
+
+# 2. Generate new application key (for production)
+docker-compose exec app php artisan key:generate
+
+# 3. Optimize Laravel
+docker-compose exec app php artisan config:cache
+docker-compose exec app php artisan route:cache
+docker-compose exec app php artisan view:cache
+
+# 4. Build production assets
+docker-compose exec app npm run build
+
+# 5. Set proper permissions
+docker-compose exec app chmod -R 775 storage bootstrap/cache
+
+# 6. Test database connection
+docker-compose exec app php artisan migrate:status
+```
+
+---
+
+### Environment Variables for Production
+
+Required environment variables:
+
+```env
+APP_NAME="The Good Beacon News Outlet"
+APP_ENV=production
+APP_KEY=base64:YOUR_PRODUCTION_KEY_HERE
+APP_DEBUG=false
+APP_URL=https://your-domain.com
+
+DB_CONNECTION=pgsql
+DB_HOST=your-db-host
+DB_PORT=5432
+DB_DATABASE=production_db_name
+DB_USERNAME=production_user
+DB_PASSWORD=secure_password_here
+
+REDIS_HOST=your-redis-host
+REDIS_PASSWORD=redis_password
+REDIS_PORT=6379
+
+CACHE_STORE=redis
+QUEUE_CONNECTION=redis
+SESSION_DRIVER=redis
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+```
+
+---
+
+### Custom Domain Setup
+
+After deployment, add your custom domain:
+
+**Railway:**
+
+```bash
+railway domain add yourdomain.com
+```
+
+**Render:**
+
+1. Go to Settings → Custom Domains
+2. Add your domain
+3. Update DNS records
+
+**DigitalOcean:**
+
+1. Go to Settings → Domains
+2. Add domain
+3. Configure DNS
+
+**DNS Records:**
+
+```
+Type  Name  Value
+A     @     Your-App-IP
+CNAME www   your-app.platform.app
+```
+
+---
+
+### Cost Comparison (Monthly)
+
+| Platform     | Free Tier | Starter Plan | Includes         |
+| ------------ | --------- | ------------ | ---------------- |
+| Railway      | $5 credit | $10/month    | All services     |
+| Render       | ✅ Yes    | $7/month     | Web + DB + Redis |
+| DigitalOcean | ❌ No     | $12/month    | App + DB + Redis |
+| Fly.io       | ✅ Yes    | $5/month     | App + small DB   |
+
+**Recommended:** Start with **Railway** or **Render** free tier, upgrade as needed.
+
+---
+
 ## 📖 Documentation Links
 
 -   [Laravel Documentation](https://laravel.com/docs/12.x)
