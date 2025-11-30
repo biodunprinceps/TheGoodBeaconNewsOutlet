@@ -33,9 +33,14 @@ class AdminPanelProvider extends PanelProvider
             ->profile() // Enable user profile editing
             ->colors([
                 'primary' => Color::Amber,
+                'danger' => Color::Red,
+                'gray' => Color::Zinc,
+                'info' => Color::Blue,
+                'success' => Color::Green,
+                'warning' => Color::Orange,
             ])
             ->brandName('The Good Beacon News')
-            ->darkMode(false)
+            ->darkMode(true)  // Enable dark mode toggle
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
