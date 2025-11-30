@@ -1,1 +1,1 @@
-web: touch /tmp/database.sqlite && php artisan migrate --force --database=sqlite && php artisan serve --host=0.0.0.0 --port=8080
+web: bash railway-start.sh
