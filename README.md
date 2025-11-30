@@ -1,123 +1,59 @@
-# 🌟 The Good Beacon - USA Good News Outlet
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-A beautiful, bright, and colorful news website that automatically updates with positive news from across the United States!
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## ✨ Features
+## About Laravel
 
-- 🎨 **Bright & Happy Design** - Colorful theme with orange (#ffa500) as the primary color
-- 🔄 **Auto-Updates** - News refreshes automatically every 10 minutes
-- 📱 **Fully Responsive** - Works perfectly on desktop, tablet, and mobile
-- 🌈 **Category Sections** - US News, Technology, Health, Environment
-- 🎯 **Positive News Filter** - Only shows uplifting and positive stories
-- ⚡ **Fast & Modern** - Built with vanilla JavaScript, no frameworks needed
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-## 🚀 Quick Start
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-1. **Open the website**
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-   - Simply open `index.html` in your web browser
-   - The site works immediately with sample good news
+## Learning Laravel
 
-2. **Enable Live News Updates** (Optional)
-   - Get a free API key from [NewsAPI.org](https://newsapi.org)
-   - Open `app.js`
-   - Replace `YOUR_NEWS_API_KEY` with your actual API key
-   - Refresh the page to see live news!
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
 
-## 📁 Project Structure
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-```
-TheGoodBeaconNewsOutlet/
-├── index.html       # Main HTML structure
-├── styles.css       # All styling (bright & colorful theme)
-├── app.js          # JavaScript for news fetching and rendering
-└── README.md       # This file
-```
+## Laravel Sponsors
 
-## 🎨 Design Theme
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-- **Primary Color**: Orange (#ffa500) - Warm and inviting
-- **Supporting Colors**:
-  - Bright Yellow (#ffd700)
-  - Sky Blue (#4a90e2)
-  - Coral (#ff6b6b)
-  - Mint (#51cf66)
-  - Purple (#9c27b0)
-- **Typography**: Poppins font family (friendly and modern)
-- **Style**: Cheerful, not serious business - think celebration, not corporate
+### Premium Partners
 
-## 🔧 Customization
+- **[Vehikl](https://vehikl.com)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
+- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+- **[Redberry](https://redberry.international/laravel-development)**
+- **[Active Logic](https://activelogic.com)**
 
-### Change Update Frequency
+## Contributing
 
-Edit `app.js` line 9:
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-```javascript
-this.updateInterval = 10 * 60 * 1000; // Change to desired milliseconds
-```
+## Code of Conduct
 
-### Modify Colors
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-Edit `styles.css` in the `:root` section:
+## Security Vulnerabilities
 
-```css
-:root {
-  --primary-orange: #ffa500; /* Change your primary color here */
-  /* ... other colors ... */
-}
-```
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-### Add More Categories
+## License
 
-Add new sections in `index.html` and update the `fetchNews()` function in `app.js`
-
-## 🌐 Deployment
-
-### GitHub Pages (Free!)
-
-1. Create a GitHub repository
-2. Push all files to the repository
-3. Go to Settings → Pages
-4. Select main branch as source
-5. Your site will be live at `https://yourusername.github.io/TheGoodBeaconNewsOutlet`
-
-### Netlify (Free!)
-
-1. Drag and drop the project folder to [Netlify](https://netlify.com)
-2. Your site goes live instantly!
-
-### Vercel (Free!)
-
-1. Install Vercel CLI: `npm install -g vercel`
-2. Run `vercel` in the project folder
-3. Follow the prompts
-
-## 📝 Notes
-
-- The site uses NewsAPI.org for live news (free tier: 100 requests/day)
-- Without an API key, the site shows curated sample good news
-- All news is filtered for positive keywords to ensure uplifting content
-- Images fallback to Unsplash if sources don't provide images
-
-## 🎯 Future Enhancements
-
-- [ ] Add search functionality
-- [ ] User preference for news categories
-- [ ] Dark mode toggle (while keeping it bright and happy!)
-- [ ] Social sharing buttons
-- [ ] Newsletter signup
-- [ ] RSS feed
-
-## 📄 License
-
-Free to use and modify! Spread positivity! 🌟
-
-## 🙏 Credits
-
-- News powered by [NewsAPI.org](https://newsapi.org)
-- Placeholder images from [Unsplash](https://unsplash.com)
-- Icons: Unicode emoji (universal support!)
-
----
-
-Made with ❤️ and ☀️ to spread good news across America!
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
