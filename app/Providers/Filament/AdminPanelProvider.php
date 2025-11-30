@@ -26,10 +26,16 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(\App\Filament\Pages\Auth\Login::class)
+            ->registration(\App\Filament\Pages\Auth\Register::class)
+            ->passwordReset() // Enable password reset
+            ->emailVerification() // Enable email verification (optional)
+            ->profile() // Enable user profile editing
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->brandName('The Good Beacon News')
+            ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
