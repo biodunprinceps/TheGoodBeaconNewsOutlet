@@ -135,9 +135,16 @@ class ArticleSeeder extends Seeder
       $category = $categories->firstWhere('name', $articleData['category']);
       $articleTags = $tags->whereIn('name', $articleData['tags']);
 
+      $slug = Str::slug($articleData['title']);
+
+      // Skip if article already exists
+      if (Article::where('slug', $slug)->exists()) {
+        continue;
+      }
+
       $article = Article::create([
         'title' => $articleData['title'],
-        'slug' => Str::slug($articleData['title']),
+        'slug' => $slug,
         'excerpt' => $articleData['excerpt'],
         'content' => $articleData['content'],
         'user_id' => $user->id,

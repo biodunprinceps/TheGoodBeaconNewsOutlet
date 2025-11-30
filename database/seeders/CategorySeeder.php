@@ -73,7 +73,10 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            Category::create($category);
+            Category::firstOrCreate(
+                ['slug' => $category['slug']], // Find by slug
+                $category // Create with all data if not found
+            );
         }
     }
 }

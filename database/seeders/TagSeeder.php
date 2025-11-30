@@ -37,7 +37,10 @@ class TagSeeder extends Seeder
         ];
 
         foreach ($tags as $tag) {
-            Tag::create($tag);
+            Tag::firstOrCreate(
+                ['slug' => $tag['slug']], // Find by slug
+                $tag // Create with all data if not found
+            );
         }
     }
 }
