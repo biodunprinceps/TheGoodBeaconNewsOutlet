@@ -4,6 +4,15 @@ echo "=== Railway Deployment Start ==="
 echo "Timestamp: $(date)"
 echo ""
 
+# Check if Vite build exists
+if [ ! -f "public/build/manifest.json" ]; then
+  echo "⚠️  Vite manifest not found, rebuilding assets..."
+  npm run build || echo "⚠️  Asset build failed, continuing anyway..."
+else
+  echo "✅ Vite build found"
+fi
+echo ""
+
 # Function to wait for database
 wait_for_db() {
   echo "Waiting for PostgreSQL database to be ready..."
@@ -86,14 +95,10 @@ else
     fi
   done
 
-  # Run seeders (only if database is empty)
+  # Run seeders
   echo ""
   echo "Running seeders..."
-  if php artisan db:seed --force 2>&1; then
-    echo "✅ Seeding completed successfully"
-  else
-    echo "ℹ️  Seeding skipped (database already contains data)"
-  fi
+  php artisan db:seed --force 2>&1
 fi
 
 # Create admin user if it doesn't exist
