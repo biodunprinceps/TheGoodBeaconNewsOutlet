@@ -163,6 +163,12 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
+# Create livewire-tmp directory for file uploads
+echo ""
+echo "Setting up Livewire temporary upload directory..."
+mkdir -p storage/app/public/livewire-tmp
+chmod -R 775 storage/app/public/livewire-tmp
+
 echo ""
 echo "✅ Deployment completed successfully!"
 echo "🚀 Starting web server on port ${PORT:-8000}..."
