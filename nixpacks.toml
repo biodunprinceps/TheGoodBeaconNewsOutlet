@@ -9,8 +9,11 @@ cmds = [
 
 [phases.build]
 cmds = [
+  'mkdir -p public/build',
   'npm run build',
+  'echo "=== Checking build output ==="',
   'ls -la public/build || echo "Build directory not found"',
+  'cat public/build/manifest.json || echo "Manifest not found"',
   'php artisan config:clear',
   'php artisan route:clear',
   'php artisan view:clear'

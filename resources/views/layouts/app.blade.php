@@ -15,7 +15,22 @@
     <link href="https://fonts.bunny.net/css?family=cnn-sans:400,600,700|inter:400,500,600,700&display=swap"
         rel="stylesheet" />
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (file_exists(public_path('build/manifest.json')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <!-- Fallback: Use CDN Tailwind CSS when Vite build is missing -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            /* Basic CNN-style styling fallback */
+            body {
+                font-family: 'Inter', system-ui, sans-serif;
+            }
+
+            .font-cnn {
+                font-family: 'CNN Sans', 'Inter', system-ui, sans-serif;
+            }
+        </style>
+    @endif
 
     @stack('head')
 </head>

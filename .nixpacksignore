@@ -1,0 +1,5 @@
+# Tell Nixpacks NOT to ignore anything that .gitignore ignores
+
+# This ensures the build process has access to all necessary files
+
+# The public/build directory will be created during the build phase
