@@ -131,6 +131,24 @@ echo ""
 echo "Creating admin user..."
 php create-admin.php 2>/dev/null || echo "ℹ️  Admin user already exists or will be created later"
 
+# Setup storage directories and permissions
+echo ""
+echo "Setting up storage..."
+mkdir -p storage/app/public
+mkdir -p storage/framework/cache
+mkdir -p storage/framework/sessions
+mkdir -p storage/framework/views
+mkdir -p storage/logs
+chmod -R 775 storage bootstrap/cache
+
+# Create storage link
+echo "Creating storage symlink..."
+if [ -L "public/storage" ]; then
+  echo "ℹ️  Storage link already exists"
+else
+  php artisan storage:link || echo "⚠️  Storage link creation failed (may already exist)"
+fi
+
 # Cache configuration for better performance
 echo ""
 echo "Caching configuration..."
