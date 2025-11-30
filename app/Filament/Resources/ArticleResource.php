@@ -54,20 +54,24 @@ class ArticleResource extends Resource
                         Forms\Components\RichEditor::make('content')
                             ->required()
                             ->columnSpanFull()
+                            ->fileAttachmentsDirectory('articles/attachments')
                             ->toolbarButtons([
-                                'bold',
-                                'italic',
-                                'underline',
-                                'strike',
-                                'link',
-                                'heading',
-                                'bulletList',
-                                'orderedList',
+                                'attachFiles',
                                 'blockquote',
+                                'bold',
+                                'bulletList',
                                 'codeBlock',
-                                'undo',
+                                'h2',
+                                'h3',
+                                'italic',
+                                'link',
+                                'orderedList',
                                 'redo',
-                            ]),
+                                'strike',
+                                'underline',
+                                'undo',
+                            ])
+                            ->helperText('Write your article content here. You can format text, add links, images, and more.'),
                     ])
                     ->columns(2),
 
