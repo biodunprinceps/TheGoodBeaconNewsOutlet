@@ -79,7 +79,11 @@ done
 # Run seeders (only if database is empty)
 echo ""
 echo "Running seeders..."
-php artisan db:seed --force || echo "⚠️  Seeding skipped (data may already exist)"
+if php artisan db:seed --force 2>&1; then
+  echo "✅ Seeding completed successfully"
+else
+  echo "ℹ️  Seeding skipped (database already contains data)"
+fi
 
 # Create admin user if it doesn't exist
 echo ""
