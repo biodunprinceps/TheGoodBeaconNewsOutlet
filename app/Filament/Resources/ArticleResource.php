@@ -13,6 +13,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class ArticleResource extends Resource
 {
@@ -106,13 +108,36 @@ class ArticleResource extends Resource
 
                 Forms\Components\Section::make('Featured Image')
                     ->schema([
-                        Forms\Components\FileUpload::make('featured_image')
+                        SpatieMediaLibraryFileUpload::make('featured_image')
+                            ->collection('featured_image')
                             ->image()
                             ->imageEditor()
-                            ->directory('articles/featured-images')
+                            ->imageEditorAspectRatios([
+                                '16:9',
+                                '4:3',
+                                '1:1',
+                            ])
                             ->maxSize(5120)
-                            ->helperText('Upload a featured image (max 5MB)'),
+                            ->helperText('Upload a featured image (max 5MB). Supports JPG, PNG, WebP.')
+                            ->columnSpanFull(),
                     ]),
+
+                Forms\Components\Section::make('Image Gallery')
+                    ->schema([
+                        SpatieMediaLibraryFileUpload::make('gallery')
+                            ->collection('gallery')
+                            ->multiple()
+                            ->maxFiles(10)
+                            ->image()
+                            ->imageEditor()
+                            ->reorderable()
+                            ->downloadable()
+                            ->openable()
+                            ->columnSpanFull()
+                            ->helperText('Upload up to 10 images for the article gallery. You can drag to reorder.'),
+                    ])
+                    ->collapsible()
+                    ->collapsed(),
 
                 Forms\Components\Section::make('SEO Settings')
                     ->schema([
@@ -182,9 +207,10 @@ class ArticleResource extends Resource
                     ->searchable()
                     ->badge(),
 
-                Tables\Columns\ImageColumn::make('featured_image')
+                SpatieMediaLibraryImageColumn::make('featured_image')
+                    ->collection('featured_image')
                     ->square()
-                    ->defaultImageUrl('/images/placeholder.jpg'),
+                    ->defaultImageUrl('https://ui-avatars.com/api/?name=No+Image&color=7F9CF5&background=EBF4FF'),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()

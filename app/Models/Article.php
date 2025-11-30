@@ -79,4 +79,25 @@ class Article extends Model implements HasMedia
     {
         return $query->where('is_featured', true);
     }
+
+    /**
+     * Scope to search articles using PostgreSQL full-text search
+     */
+    public function scopeSearch($query, $searchTerm)
+    {
+        if (empty($searchTerm)) {
+            return $query;
+        }
+
+        // Convert search term to tsquery format
+        $searchQuery = str_replace(' ', ' & ', trim($searchTerm));
+
+        return $query->whereRaw(
+            "search_vector @@ to_tsquery('english', ?)",
+            [$searchQuery . ':*']
+        )->orderByRaw(
+            "ts_rank(search_vector, to_tsquery('english', ?)) DESC",
+            [$searchQuery . ':*']
+        );
+    }
 }

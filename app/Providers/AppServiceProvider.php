@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Article;
+use App\Observers\ArticleObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 
@@ -24,5 +26,8 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
+
+        // Register model observers
+        Article::observe(ArticleObserver::class);
     }
 }
