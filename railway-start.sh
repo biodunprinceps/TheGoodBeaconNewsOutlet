@@ -56,33 +56,44 @@ if ! wait_for_db; then
 fi
 
 echo ""
-echo "Running migrations..."
-max_retry=5  # Increased retry attempts
-retry_count=0
-
-while [ $retry_count -lt $max_retry ]; do
-  if php artisan migrate --force 2>&1; then
-    echo "✅ Migrations completed successfully"
-    break
+# Check if FRESH_SEED environment variable is set
+if [ "$FRESH_SEED" = "true" ]; then
+  echo "🔄 FRESH_SEED is enabled - dropping all tables and reseeding..."
+  if php artisan migrate:fresh --seed --force 2>&1; then
+    echo "✅ Database refreshed and seeded successfully"
   else
-    retry_count=$((retry_count + 1))
-    if [ $retry_count -lt $max_retry ]; then
-      echo "⚠️  Migration failed, retrying in 5 seconds ($retry_count/$max_retry)..."
-      sleep 5
-    else
-      echo "❌ Migrations failed after $max_retry attempts"
-      exit 1
-    fi
+    echo "❌ Fresh migration failed"
+    exit 1
   fi
-done
-
-# Run seeders (only if database is empty)
-echo ""
-echo "Running seeders..."
-if php artisan db:seed --force 2>&1; then
-  echo "✅ Seeding completed successfully"
 else
-  echo "ℹ️  Seeding skipped (database already contains data)"
+  echo "Running migrations..."
+  max_retry=5  # Increased retry attempts
+  retry_count=0
+
+  while [ $retry_count -lt $max_retry ]; do
+    if php artisan migrate --force 2>&1; then
+      echo "✅ Migrations completed successfully"
+      break
+    else
+      retry_count=$((retry_count + 1))
+      if [ $retry_count -lt $max_retry ]; then
+        echo "⚠️  Migration failed, retrying in 5 seconds ($retry_count/$max_retry)..."
+        sleep 5
+      else
+        echo "❌ Migrations failed after $max_retry attempts"
+        exit 1
+      fi
+    fi
+  done
+
+  # Run seeders (only if database is empty)
+  echo ""
+  echo "Running seeders..."
+  if php artisan db:seed --force 2>&1; then
+    echo "✅ Seeding completed successfully"
+  else
+    echo "ℹ️  Seeding skipped (database already contains data)"
+  fi
 fi
 
 # Create admin user if it doesn't exist
