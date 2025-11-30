@@ -5,11 +5,36 @@ echo "Timestamp: $(date)"
 echo ""
 
 # Check if Vite build exists
+echo "Checking for Vite build files..."
 if [ ! -f "public/build/manifest.json" ]; then
-  echo "⚠️  Vite manifest not found, rebuilding assets..."
-  npm run build || echo "⚠️  Asset build failed, continuing anyway..."
+  echo "⚠️  Vite manifest not found at public/build/manifest.json"
+  echo "📁 Current directory: $(pwd)"
+  echo "📂 Contents of public/:"
+  ls -la public/ || echo "public/ directory not found"
+  echo ""
+  echo "🔨 Rebuilding assets..."
+  
+  # Ensure node_modules exists
+  if [ ! -d "node_modules" ]; then
+    echo "Installing npm dependencies..."
+    npm ci
+  fi
+  
+  # Build assets
+  npm run build
+  
+  # Verify build succeeded
+  if [ -f "public/build/manifest.json" ]; then
+    echo "✅ Vite build completed successfully"
+  else
+    echo "❌ Vite build failed - manifest still missing"
+    echo "Contents of public/ after build:"
+    ls -la public/
+  fi
 else
   echo "✅ Vite build found"
+  echo "📄 Manifest contents:"
+  cat public/build/manifest.json | head -n 10
 fi
 echo ""
 

@@ -4,12 +4,13 @@ nixPkgs = ['nodejs_20', 'php82', 'php82Packages.composer']
 [phases.install]
 cmds = [
   'composer install --no-dev --optimize-autoloader',
-  'npm ci',
-  'npm run build'
+  'npm ci'
 ]
 
 [phases.build]
 cmds = [
+  'npm run build',
+  'ls -la public/build || echo "Build directory not found"',
   'php artisan config:clear',
   'php artisan route:clear',
   'php artisan view:clear'
