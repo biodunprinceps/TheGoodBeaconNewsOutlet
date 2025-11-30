@@ -43,8 +43,13 @@ WORKDIR /var/www
 # Copy existing application directory
 COPY . /var/www
 
-# Change ownership
-RUN chown -R www-data:www-data /var/www
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www \
+  && chmod -R 775 /var/www/storage \
+  && chmod -R 775 /var/www/bootstrap/cache
 
 EXPOSE 8000
-CMD ["tail", "-f", "/dev/null"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
