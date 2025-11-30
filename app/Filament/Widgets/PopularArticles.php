@@ -28,7 +28,7 @@ class PopularArticles extends BaseWidget
           ->label('Title')
           ->searchable()
           ->limit(50)
-          ->url(fn(Article $record): string => route('articles.show', $record->slug), shouldOpenInNewTab: true),
+          ->url(fn(Article $record): string => route('article.show', $record->slug), shouldOpenInNewTab: true),
 
         Tables\Columns\TextColumn::make('category.name')
           ->label('Category')
