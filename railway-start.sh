@@ -9,6 +9,25 @@ export PHP_INI_SCAN_DIR="$PWD:$PHP_INI_SCAN_DIR"
 echo "PHP upload limits configured (50MB)"
 echo ""
 
+# CRITICAL: Check if APP_KEY is set
+if [ -z "$APP_KEY" ]; then
+  echo "⚠️  WARNING: APP_KEY is not set!"
+  echo "This WILL cause 401 errors on file uploads."
+  echo ""
+  echo "Generating a temporary key for this deployment..."
+  GENERATED_KEY=$(php artisan key:generate --show)
+  echo "Generated key: $GENERATED_KEY"
+  echo ""
+  echo "⚠️  IMPORTANT: Add this as APP_KEY in Railway environment variables!"
+  echo "⚠️  Without this, uploads will fail on next deployment!"
+  echo ""
+  export APP_KEY="$GENERATED_KEY"
+  php artisan config:clear
+else
+  echo "✅ APP_KEY is set: ${APP_KEY:0:20}..."
+  echo ""
+fi
+
 # Check if Vite build exists
 echo "Checking for Vite build files..."
 if [ ! -f "public/build/manifest.json" ]; then
