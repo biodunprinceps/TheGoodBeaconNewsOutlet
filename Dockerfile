@@ -51,5 +51,8 @@ RUN chown -R www-data:www-data /var/www \
   && chmod -R 775 /var/www/storage \
   && chmod -R 775 /var/www/bootstrap/cache
 
+# Make entrypoint script executable
+RUN chmod +x /var/www/docker-entrypoint.sh
+
 EXPOSE 8080
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+CMD ["/var/www/docker-entrypoint.sh"]
