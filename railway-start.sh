@@ -4,6 +4,11 @@ echo "=== Railway Deployment Start ==="
 echo "Timestamp: $(date)"
 echo ""
 
+# Set PHP configuration for uploads
+export PHP_INI_SCAN_DIR="$PWD:$PHP_INI_SCAN_DIR"
+echo "PHP upload limits configured (50MB)"
+echo ""
+
 # Check if Vite build exists
 echo "Checking for Vite build files..."
 if [ ! -f "public/build/manifest.json" ]; then
@@ -135,19 +140,21 @@ php create-admin.php 2>/dev/null || echo "ℹ️  Admin user already exists or w
 echo ""
 echo "Setting up storage..."
 mkdir -p storage/app/public
+mkdir -p storage/app/public/media
 mkdir -p storage/framework/cache
 mkdir -p storage/framework/sessions
 mkdir -p storage/framework/views
 mkdir -p storage/logs
+mkdir -p public/storage
 chmod -R 775 storage bootstrap/cache
 
 # Create storage link
 echo "Creating storage symlink..."
 if [ -L "public/storage" ]; then
-  echo "ℹ️  Storage link already exists"
-else
-  php artisan storage:link || echo "⚠️  Storage link creation failed (may already exist)"
+  rm -f public/storage
 fi
+php artisan storage:link
+echo "✅ Storage setup completed"
 
 # Cache configuration for better performance
 echo ""

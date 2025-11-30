@@ -4,7 +4,8 @@ nixPkgs = ['nodejs_20', 'php82', 'php82Packages.composer']
 [phases.install]
 cmds = [
   'composer install --no-dev --optimize-autoloader',
-  'npm ci'
+  'npm ci',
+  'cp php.ini /etc/php/8.2/php.ini || echo "Custom php.ini setup - will be used at runtime"'
 ]
 
 [phases.build]
