@@ -177,10 +177,16 @@ else
     fi
   done
 
-  # Run seeders
+  # Run seeders only if database is empty
   echo ""
-  echo "Running seeders..."
-  php artisan db:seed --force 2>&1
+  echo "Checking if database needs seeding..."
+  if php artisan tinker --execute="echo App\Models\Article::count();" 2>&1 | grep -q "^0$"; then
+    echo "Database is empty - running seeders..."
+    echo "Seeding database with initial data..."
+    php artisan db:seed --force 2>&1
+  else
+    echo "✅ Database already contains data - skipping seeders"
+  fi
 fi
 
 # Create admin user if it doesn't exist
