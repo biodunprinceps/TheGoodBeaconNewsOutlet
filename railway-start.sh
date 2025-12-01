@@ -11,17 +11,37 @@ echo ""
 
 # CRITICAL: Check if APP_KEY is set
 if [ -z "$APP_KEY" ]; then
-  echo "⚠️  WARNING: APP_KEY is not set!"
-  echo "This WILL cause 401 errors on file uploads."
+  echo "=========================================="
+  echo "⚠️  CRITICAL: APP_KEY is NOT SET!"
+  echo "=========================================="
   echo ""
-  echo "Generating a temporary key for this deployment..."
+  echo "This WILL cause 401 errors on file uploads!"
+  echo ""
+  echo "Generating a new APP_KEY for this deployment..."
   GENERATED_KEY=$(php artisan key:generate --show)
-  echo "Generated key: $GENERATED_KEY"
   echo ""
-  echo "⚠️  IMPORTANT: Add this as APP_KEY in Railway environment variables!"
-  echo "⚠️  Without this, uploads will fail on next deployment!"
+  echo "=========================================="
+  echo "🔑 GENERATED APP_KEY:"
+  echo "$GENERATED_KEY"
+  echo "=========================================="
   echo ""
+  echo "⚠️  ACTION REQUIRED:"
+  echo "1. Copy the key above (entire line starting with 'base64:')"
+  echo "2. Go to Railway → Variables"
+  echo "3. Add variable: APP_KEY = $GENERATED_KEY"
+  echo "4. Save and redeploy"
+  echo ""
+  echo "Without this, file uploads will continue to fail!"
+  echo "=========================================="
+  echo ""
+  
+  # Use the generated key for THIS deployment
   export APP_KEY="$GENERATED_KEY"
+  echo "$GENERATED_KEY" > /tmp/app_key.txt
+  echo "Key also saved to /tmp/app_key.txt"
+  echo ""
+  
+  # Clear cache to use the new key
   php artisan config:clear
 else
   echo "✅ APP_KEY is set: ${APP_KEY:0:20}..."
