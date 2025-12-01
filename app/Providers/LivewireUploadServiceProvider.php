@@ -27,12 +27,22 @@ class LivewireUploadServiceProvider extends ServiceProvider
       $disk = config('livewire.temporary_file_upload.disk', 'public');
       $directory = config('livewire.temporary_file_upload.directory', 'livewire-tmp');
 
-      $file = request()->file('file');
+      // Debug: Log what we received
+      \Log::info('Upload request received', [
+        'has_file' => request()->hasFile('file'),
+        'all_files' => request()->allFiles(),
+        'all_input' => request()->all(),
+      ]);
+
+      // Try different possible file field names
+      $file = request()->file('file') 
+           ?? request()->file('files') 
+           ?? request()->file('0');
 
       if (!$file) {
         return response()->json([
           'paths' => [],
-          'errors' => ['No file uploaded']
+          'errors' => ['No file uploaded - received fields: ' . implode(', ', array_keys(request()->all()))]
         ], 422);
       }
 
