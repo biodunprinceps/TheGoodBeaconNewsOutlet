@@ -209,40 +209,16 @@ fi
 php artisan storage:link
 echo "✅ Storage setup completed"
 
-# Cache configuration for better performance
+# Clear all caches but DON'T cache anything to avoid signed URL issues
 echo ""
-echo "Caching configuration..."
+echo "Clearing all caches..."
+php artisan cache:clear 2>/dev/null || true
+php artisan config:clear 2>/dev/null || true  
+php artisan route:clear 2>/dev/null || true
+php artisan view:clear 2>/dev/null || true
 
-# IMPORTANT: Clear ALL cache first to ensure fresh start
-php artisan cache:clear
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-
-# Cache ONLY config and view (NOT routes - causes issues with Livewire signed URLs)
-php artisan config:cache
-php artisan view:cache
-
-# Verify APP_KEY is loaded correctly
-echo ""
-echo "Verifying APP_KEY configuration..."
-php artisan tinker --execute="
-\$key = config('app.key');
-if (empty(\$key)) {
-    echo '❌ ERROR: APP_KEY is EMPTY in config';
-    exit(1);
-}
-if (!str_starts_with(\$key, 'base64:')) {
-    echo '❌ ERROR: APP_KEY format invalid: ' . substr(\$key, 0, 20) . '...';
-    exit(1);
-}
-echo '✅ APP_KEY correctly loaded: ' . substr(\$key, 0, 25) . '...';
-echo PHP_EOL;
-echo '✅ APP_KEY length: ' . strlen(\$key) . ' characters';
-" 2>&1
-
-# DO NOT cache routes - this can cause issues with Livewire signed URLs
-echo "⚠️  Note: Route caching disabled to prevent Livewire signed URL issues"
+echo "✅ All caches cleared"
+echo "⚠️  Note: Configuration NOT cached - running in development mode for upload debugging"
 
 # Create livewire-tmp directory for file uploads
 echo ""
