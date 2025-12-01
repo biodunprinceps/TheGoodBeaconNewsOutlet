@@ -221,7 +221,16 @@ php artisan route:clear 2>/dev/null || true
 php artisan view:clear 2>/dev/null || true
 
 echo "✅ All caches cleared"
-echo "⚠️  Note: Configuration NOT cached - running in development mode for upload debugging"
+echo ""
+
+# Verify APP_KEY is accessible to Laravel
+echo "Verifying APP_KEY is accessible..."
+echo "Environment APP_KEY: ${APP_KEY:0:25}..."
+php -r "echo 'PHP can read APP_KEY: ' . substr(getenv('APP_KEY'), 0, 25) . '...' . PHP_EOL;"
+php artisan env 2>/dev/null | grep APP_KEY || echo "APP_KEY in .env or environment"
+
+echo ""
+echo "⚠️  Note: Running WITHOUT config cache to prevent APP_KEY issues"
 
 # Create livewire-tmp directory for file uploads
 echo ""

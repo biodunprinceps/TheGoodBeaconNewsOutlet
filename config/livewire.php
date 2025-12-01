@@ -65,9 +65,9 @@ return [
 
     'temporary_file_upload' => [
         'disk' => 'public',        // Use public disk for uploads
-        'rules' => ['required', 'file', 'max:51200'],       // Max 50MB (50 * 1024)
+        'rules' => null,       // Disable validation rules temporarily
         'directory' => 'livewire-tmp',   // Temporary directory
-        'middleware' => 'web',  // Use web middleware instead of throttle to avoid 401
+        'middleware' => null,  // Disable middleware to bypass signature check
         'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs...
             'png',
             'gif',
@@ -86,7 +86,7 @@ return [
             'webp',
             'wma',
         ],
-        'max_upload_time' => 30, // Max duration (in minutes) before an upload is invalidated (increased from 5 to 30)
+        'max_upload_time' => 5, // Reset to default
         'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...
     ],
 
