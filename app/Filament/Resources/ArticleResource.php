@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
@@ -120,7 +121,7 @@ class ArticleResource extends Resource
                             ->maxSize(5120)
                             ->helperText('Upload a featured image (max 5MB). Supports JPG, PNG, WebP.')
                             ->getUploadedFileNameForStorageUsing(
-                                fn($file): string => static::sanitizeFilename($file->getClientOriginalName())
+                                fn($file): string => static::sanitizeFilename($file)
                             )
                             ->columnSpanFull(),
                     ]),
@@ -137,7 +138,7 @@ class ArticleResource extends Resource
                             ->downloadable()
                             ->openable()
                             ->getUploadedFileNameForStorageUsing(
-                                fn($file): string => static::sanitizeFilename($file->getClientOriginalName())
+                                fn($file): string => static::sanitizeFilename($file)
                             )
                             ->columnSpanFull()
                             ->helperText('Upload up to 10 images for the article gallery. You can drag to reorder.'),
@@ -317,32 +318,43 @@ class ArticleResource extends Resource
      * Sanitize filename to ASCII-only characters to prevent PostgreSQL UTF-8 errors.
      * Generates a unique, safe filename while preserving the extension.
      */
-    protected static function sanitizeFilename(string $filename): string
+    protected static function sanitizeFilename($file): string
     {
-        // Get the extension
-        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        // Get extension from the file object
+        $extension = null;
 
-        // Sanitize extension to be safe
-        $extension = preg_replace('/[^a-zA-Z0-9]/', '', $extension);
-
-        // If no valid extension, try to get it from the original
-        if (empty($extension)) {
-            // Try one more time with the full filename
-            $parts = explode('.', $filename);
-            if (count($parts) > 1) {
-                $lastPart = end($parts);
-                $extension = preg_replace('/[^a-zA-Z0-9]/', '', $lastPart);
+        // Try multiple methods to get the extension
+        if (is_object($file)) {
+            if (method_exists($file, 'getClientOriginalExtension')) {
+                $extension = $file->getClientOriginalExtension();
+            } elseif (method_exists($file, 'extension')) {
+                $extension = $file->extension();
+            } elseif (method_exists($file, 'getClientOriginalName')) {
+                $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
             }
+        } elseif (is_string($file)) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+        }
+
+        // Clean the extension
+        if ($extension) {
+            $extension = preg_replace('/[^a-zA-Z0-9]/', '', $extension);
+            $extension = strtolower($extension);
         }
 
         // Generate a unique, safe filename using UUID
         $uniqueName = (string) Str::uuid();
 
-        // Return with extension if we have one
+        // Always return with extension if we have one
         if (!empty($extension)) {
-            return strtolower($uniqueName . '.' . $extension);
+            return $uniqueName . '.' . $extension;
         }
 
-        return $uniqueName;
+        // Fallback to .tmp if no extension found
+        Log::warning('File uploaded without detectable extension', [
+            'file_type' => is_object($file) ? get_class($file) : gettype($file),
+        ]);
+
+        return $uniqueName . '.tmp';
     }
 }
