@@ -19,14 +19,6 @@ class SanitizeLivewireUploads
     // Check if this is a Livewire upload request
     if ($request->hasHeader('X-Livewire') || $request->is('livewire/*')) {
       try {
-        // Log the request for debugging
-        Log::info('Livewire request received', [
-          'url' => $request->fullUrl(),
-          'method' => $request->method(),
-          'has_files' => $request->hasFile('file') || $request->hasFile('files'),
-          'content_type' => $request->header('Content-Type'),
-        ]);
-
         // Process the request
         $response = $next($request);
 

@@ -79,10 +79,10 @@ class ArticleResource extends Resource
 
                 Forms\Components\Section::make('Organization')
                     ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->relationship('user', 'name')
-                            ->required()
-                            ->label('Author'),
+                        // Forms\Components\Select::make('user_id')
+                            // ->relationship('user', 'name')
+                            // ->required()
+                            // ->label('Author'),
 
                         Forms\Components\Select::make('category_id')
                             ->relationship('category', 'name')

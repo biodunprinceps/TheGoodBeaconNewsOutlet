@@ -2,17 +2,17 @@
 
 ## ✅ Completed (Just Now)
 
-- [x] Removed debug route from `routes/web.php`
-- [x] Updated `.env.example` with production-safe defaults
-  - APP_ENV=production
-  - APP_DEBUG=false
-  - LOG_LEVEL=error
-  - APP_NAME="The Good Beacon News Outlet"
-- [x] Added MIT LICENSE file
-- [x] Created `FIRST_DEPLOY_CHECKLIST.md` (comprehensive deployment guide)
-- [x] Created `SECURITY_WARNINGS.md` (security audit checklist)
-- [x] Updated `README.md` with security warnings
-- [x] All changes committed to git
+-   [x] Removed debug route from `routes/web.php`
+-   [x] Updated `.env.example` with production-safe defaults
+    -   APP_ENV=production
+    -   APP_DEBUG=false
+    -   LOG_LEVEL=error
+    -   APP_NAME="The Good Beacon News Outlet"
+-   [x] Added MIT LICENSE file
+-   [x] Created `FIRST_DEPLOY_CHECKLIST.md` (comprehensive deployment guide)
+-   [x] Created `SECURITY_WARNINGS.md` (security audit checklist)
+-   [x] Updated `README.md` with security warnings
+-   [x] All changes committed to git
 
 ## 🎯 Still TODO Before Selling (2-3 hours)
 
@@ -20,29 +20,32 @@
 
 **Required screenshots** (mentioned in SALES_DESCRIPTION.md):
 
-- [ ] Login page (`/admin`)
-- [ ] Dashboard (admin home)
-- [ ] Article editor (create/edit article form)
-- [ ] Media library (upload interface)
-- [ ] Category management
-- [ ] Dark mode view
-- [ ] Mobile responsive view
+-   [ ] Login page (`/admin`)
+-   [ ] Dashboard (admin home)
+-   [ ] Article editor (create/edit article form)
+-   [ ] Media library (upload interface)
+-   [ ] Category management
+-   [ ] Dark mode view
+-   [ ] Mobile responsive view
 
 **How to take them:**
 
 1. Start the Docker environment:
-   ```bash
-   docker-compose up -d
-   ```
+
+    ```bash
+    docker-compose up -d
+    ```
 
 2. Run migrations and seed sample data:
-   ```bash
-   docker-compose exec app php artisan migrate:fresh --seed
-   ```
+
+    ```bash
+    docker-compose exec app php artisan migrate:fresh --seed
+    ```
 
 3. Login at http://localhost:8000/admin
-   - Email: admin@goodbeacon.com
-   - Password: admin123
+
+    - Email: admin@goodbeacon.com
+    - Password: admin123
 
 4. Take screenshots using macOS Screenshot tool (Cmd+Shift+4)
 
@@ -51,10 +54,11 @@
 6. Update `SALES_DESCRIPTION.md` with screenshot links
 
 **Screenshot specs:**
-- Resolution: 1920x1080 or higher
-- Format: PNG or JPG (optimize for web)
-- Show actual content (not empty screens)
-- Include both light and dark mode
+
+-   Resolution: 1920x1080 or higher
+-   Format: PNG or JPG (optimize for web)
+-   Show actual content (not empty screens)
+-   Include both light and dark mode
 
 ---
 
@@ -62,15 +66,15 @@
 
 Verify the setup process works:
 
-- [ ] Clone repo to new folder (simulate buyer experience)
-- [ ] Follow GET_STARTED.md step-by-step
-- [ ] Docker installation works without errors
-- [ ] All migrations run successfully
-- [ ] Seeder creates sample data
-- [ ] Admin login works
-- [ ] Can create/edit articles
-- [ ] Can upload images
-- [ ] Frontend displays correctly
+-   [ ] Clone repo to new folder (simulate buyer experience)
+-   [ ] Follow GET_STARTED.md step-by-step
+-   [ ] Docker installation works without errors
+-   [ ] All migrations run successfully
+-   [ ] Seeder creates sample data
+-   [ ] Admin login works
+-   [ ] Can create/edit articles
+-   [ ] Can upload images
+-   [ ] Frontend displays correctly
 
 **Commands to test:**
 
@@ -91,18 +95,20 @@ docker-compose exec app php artisan migrate:fresh --seed
 
 **For higher-tier packages ($99, $199), consider:**
 
-- [ ] 5-10 minute walkthrough video
-- [ ] Show installation process
-- [ ] Demonstrate key features
-- [ ] Show customization examples
-- [ ] Upload to YouTube or Vimeo
+-   [ ] 5-10 minute walkthrough video
+-   [ ] Show installation process
+-   [ ] Demonstrate key features
+-   [ ] Show customization examples
+-   [ ] Upload to YouTube or Vimeo
 
 **Tools:**
-- macOS: QuickTime Player (built-in screen recording)
-- Loom (free tier: 5 min videos)
-- OBS Studio (free, more advanced)
+
+-   macOS: QuickTime Player (built-in screen recording)
+-   Loom (free tier: 5 min videos)
+-   OBS Studio (free, more advanced)
 
 **Video outline:**
+
 1. Introduction (30 sec)
 2. Installation via Docker (2 min)
 3. Admin panel tour (2 min)
@@ -117,11 +123,11 @@ docker-compose exec app php artisan migrate:fresh --seed
 
 **Create downloadable ZIP file:**
 
-- [ ] Create `INSTALL_FIRST.txt` pointing to GET_STARTED.md
-- [ ] Verify all documentation is included
-- [ ] Ensure `.env.example` is present (NOT `.env`)
-- [ ] Create ZIP without `vendor/`, `node_modules/`, `.git/`
-- [ ] Test ZIP extraction and installation
+-   [ ] Create `INSTALL_FIRST.txt` pointing to GET_STARTED.md
+-   [ ] Verify all documentation is included
+-   [ ] Ensure `.env.example` is present (NOT `.env`)
+-   [ ] Create ZIP without `vendor/`, `node_modules/`, `.git/`
+-   [ ] Test ZIP extraction and installation
 
 **Command to create ZIP:**
 
@@ -175,64 +181,67 @@ Enjoy building with The Good Beacon! 🚀
 
 **Review SALES_DESCRIPTION.md:**
 
-- [ ] Add screenshot embeds
-- [ ] Verify pricing is correct ($49/$99/$199)
-- [ ] Add demo video link (if created)
-- [ ] Review feature list for accuracy
-- [ ] Add testimonials (if any)
-- [ ] Proofread for typos
+-   [ ] Add screenshot embeds
+-   [ ] Verify pricing is correct ($49/$99/$199)
+-   [ ] Add demo video link (if created)
+-   [ ] Review feature list for accuracy
+-   [ ] Add testimonials (if any)
+-   [ ] Proofread for typos
 
 **Prepare for Systeme.io:**
 
-- [ ] Create product listing
-- [ ] Upload screenshots
-- [ ] Set pricing tiers
-- [ ] Configure delivery (ZIP download)
-- [ ] Set up payment processing
-- [ ] Write clear refund policy
+-   [ ] Create product listing
+-   [ ] Upload screenshots
+-   [ ] Set pricing tiers
+-   [ ] Configure delivery (ZIP download)
+-   [ ] Set up payment processing
+-   [ ] Write clear refund policy
 
 ---
 
 ## 📊 Estimated Time Breakdown
 
-| Task | Time | Priority |
-|------|------|----------|
-| Screenshots | 60-90 min | **HIGH** |
-| Fresh install test | 30 min | **HIGH** |
-| Package ZIP | 30 min | **HIGH** |
-| Sales page update | 30 min | **MEDIUM** |
-| Demo video | 60 min | **OPTIONAL** |
-| **TOTAL** | **2.5-4 hours** | |
+| Task               | Time            | Priority     |
+| ------------------ | --------------- | ------------ |
+| Screenshots        | 60-90 min       | **HIGH**     |
+| Fresh install test | 30 min          | **HIGH**     |
+| Package ZIP        | 30 min          | **HIGH**     |
+| Sales page update  | 30 min          | **MEDIUM**   |
+| Demo video         | 60 min          | **OPTIONAL** |
+| **TOTAL**          | **2.5-4 hours** |              |
 
 ---
 
 ## 🎯 Minimum Viable Product (MVP) to Sell
 
 **Can sell with just:**
+
 1. ✅ Screenshots (HIGH priority)
 2. ✅ Fresh install verification (HIGH priority)
 3. ✅ Packaged ZIP file (HIGH priority)
 
 **Nice to have:**
-- Demo video (increases perceived value for $99+ tiers)
-- Video tutorials for $199 tier
-- Email support tier
+
+-   Demo video (increases perceived value for $99+ tiers)
+-   Video tutorials for $199 tier
+-   Email support tier
 
 ---
 
 ## ✅ What's Already Done
 
 You have:
-- ✅ Complete, working Laravel + Filament CMS
-- ✅ 20+ documentation files
-- ✅ Docker setup
-- ✅ Railway deployment guide
-- ✅ Security warnings and checklists
-- ✅ Pre-written sales copy
-- ✅ Pricing structure
-- ✅ MIT license
-- ✅ Professional codebase
-- ✅ All major features implemented
+
+-   ✅ Complete, working Laravel + Filament CMS
+-   ✅ 20+ documentation files
+-   ✅ Docker setup
+-   ✅ Railway deployment guide
+-   ✅ Security warnings and checklists
+-   ✅ Pre-written sales copy
+-   ✅ Pricing structure
+-   ✅ MIT license
+-   ✅ Professional codebase
+-   ✅ All major features implemented
 
 ---
 
