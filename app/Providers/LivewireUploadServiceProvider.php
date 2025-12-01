@@ -35,9 +35,9 @@ class LivewireUploadServiceProvider extends ServiceProvider
       ]);
 
       // Try different possible file field names
-      $file = request()->file('file') 
-           ?? request()->file('files') 
-           ?? request()->file('0');
+      $file = request()->file('file')
+        ?? request()->file('files')
+        ?? request()->file('0');
 
       if (!$file) {
         return response()->json([
