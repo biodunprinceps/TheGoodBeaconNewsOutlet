@@ -142,8 +142,8 @@ class ArticleResource extends Resource
                 Forms\Components\Section::make('SEO Settings')
                     ->schema([
                         Forms\Components\TextInput::make('meta_title')
-                            ->maxLength(60)
-                            ->helperText('Recommended: 50-60 characters'),
+                            ->maxLength(255)
+                            ->helperText('Recommended: 255 characters for SEO'),
 
                         Forms\Components\Textarea::make('meta_description')
                             ->rows(3)
