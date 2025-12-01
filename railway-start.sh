@@ -177,16 +177,11 @@ else
     fi
   done
 
-  # Run seeders only if database is empty
+  # Seeders are NOT run automatically on deployment to prevent duplicates
+  # If you need to seed the database, set FRESH_SEED=true in Railway variables
   echo ""
-  echo "Checking if database needs seeding..."
-  if php artisan tinker --execute="echo App\Models\Article::count();" 2>&1 | grep -q "^0$"; then
-    echo "Database is empty - running seeders..."
-    echo "Seeding database with initial data..."
-    php artisan db:seed --force 2>&1
-  else
-    echo "✅ Database already contains data - skipping seeders"
-  fi
+  echo "ℹ️  Skipping automatic seeders (database already has data)"
+  echo "   To reseed: Set FRESH_SEED=true in Railway environment variables"
 fi
 
 # Create admin user if it doesn't exist
