@@ -39,13 +39,10 @@ class LivewireUploadServiceProvider extends ServiceProvider
       // Store the file
       $path = $file->storeAs($directory, $filename, $disk);
 
-      // Return the response in Livewire's expected format
+      // Return the response in Livewire's EXACT expected format
       return response()->json([
-        'path' => $path,
-        'name' => $file->getClientOriginalName(),
-        'size' => $file->getSize(),
-        'extension' => $file->getClientOriginalExtension(),
-        'mime' => $file->getMimeType(),
+        'paths' => [$path],  // Livewire expects 'paths' array, not 'path'
+        'errors' => [],      // Required by Livewire
       ]);
     })->middleware(['web'])->name('livewire.upload-file');
   }
