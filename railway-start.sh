@@ -46,7 +46,20 @@ if [ -z "$APP_KEY" ]; then
 else
   echo "✅ APP_KEY is set: ${APP_KEY:0:20}..."
   echo ""
+  
+  # Verify the APP_KEY is properly formatted
+  if [[ ! "$APP_KEY" =~ ^base64: ]]; then
+    echo "⚠️  WARNING: APP_KEY doesn't start with 'base64:'"
+    echo "Current value: ${APP_KEY:0:30}..."
+    echo "Expected format: base64:..."
+    echo ""
+  fi
 fi
+
+# Clear any old cached config to ensure fresh start with correct APP_KEY
+echo "Clearing old configuration cache..."
+php artisan config:clear 2>/dev/null || true
+echo ""
 
 # Check if Vite build exists
 echo "Checking for Vite build files..."
@@ -198,9 +211,25 @@ echo "✅ Storage setup completed"
 # Cache configuration for better performance
 echo ""
 echo "Caching configuration..."
+
+# IMPORTANT: Clear any existing cache first to ensure APP_KEY is properly loaded
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+# Now cache with the correct APP_KEY
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
+
+# Verify APP_KEY is in the cached config
+echo ""
+echo "Verifying cached configuration..."
+if php artisan tinker --execute="echo 'APP_KEY: ' . substr(config('app.key'), 0, 20) . '...';" 2>&1 | grep -q "APP_KEY:"; then
+  echo "✅ APP_KEY successfully cached"
+else
+  echo "⚠️  Warning: Could not verify APP_KEY in cache"
+fi
 
 # Create livewire-tmp directory for file uploads
 echo ""
