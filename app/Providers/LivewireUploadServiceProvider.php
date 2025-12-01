@@ -42,7 +42,7 @@ class LivewireUploadServiceProvider extends ServiceProvider
         $hash = \Illuminate\Support\Str::random(20);
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
-        
+
         // Livewire uses this specific format
         $filename = 'livewire-file:' . $originalName . '|' . $hash;
 
