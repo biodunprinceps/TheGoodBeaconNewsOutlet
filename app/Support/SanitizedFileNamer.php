@@ -11,26 +11,15 @@ class SanitizedFileNamer extends FileNamer
   /**
    * Generate an ASCII-safe filename for the original file.
    * Uses UUID to avoid any encoding issues with PostgreSQL.
+   * 
+   * NOTE: This method should return ONLY the basename WITHOUT extension.
+   * Spatie will automatically append the extension from the original file.
    */
   public function originalFileName(string $fileName): string
   {
-    // Get the extension
-    $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-
-    // Clean the extension to be ASCII-safe
-    $extension = preg_replace('/[^a-zA-Z0-9]/', '', $extension);
-    $extension = strtolower($extension);
-
-    // Generate a unique UUID filename
-    $uuid = (string) Str::uuid();
-
-    // Return with extension if available
-    if (!empty($extension)) {
-      return $uuid . '.' . $extension;
-    }
-
-    // Fallback if no extension
-    return $uuid;
+    // Return just the UUID without any extension
+    // Spatie Media Library will automatically add the extension
+    return (string) Str::uuid();
   }
 
   /**
