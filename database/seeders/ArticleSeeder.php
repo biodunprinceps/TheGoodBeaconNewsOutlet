@@ -16,6 +16,13 @@ class ArticleSeeder extends Seeder
    */
   public function run(): void
   {
+    // DISABLED: Prevent duplicate seeding on Railway deployments
+    $this->command->warn('⚠️  ArticleSeeder is DISABLED to prevent duplicates');
+    $this->command->info('ℹ️  To seed articles, set FRESH_SEED=true in Railway');
+    return;
+
+    // Original seeding code disabled below
+    /*
     $user = User::first();
     if (!$user) {
       $user = User::create([
@@ -162,5 +169,6 @@ class ArticleSeeder extends Seeder
     }
 
     $this->command->info('✅ Created ' . count($articles) . ' sample articles');
+    */
   }
 }

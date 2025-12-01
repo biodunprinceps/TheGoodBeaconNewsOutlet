@@ -13,6 +13,12 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        // DISABLED: Prevent duplicate seeding on Railway deployments
+        $this->command->warn('⚠️  CategorySeeder is DISABLED to prevent duplicates');
+        return;
+
+        // Original code disabled
+        /*
         $categories = [
             [
                 'name' => 'World News',
@@ -78,5 +84,6 @@ class CategorySeeder extends Seeder
                 $category // Create with all data if not found
             );
         }
+        */
     }
 }

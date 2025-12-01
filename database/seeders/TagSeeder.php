@@ -13,6 +13,12 @@ class TagSeeder extends Seeder
      */
     public function run(): void
     {
+        // DISABLED: Prevent duplicate seeding on Railway deployments
+        $this->command->warn('⚠️  TagSeeder is DISABLED to prevent duplicates');
+        return;
+
+        // Original code disabled
+        /*
         $tags = [
             ['name' => 'Breaking News', 'slug' => 'breaking-news'],
             ['name' => 'Trending', 'slug' => 'trending'],
@@ -42,5 +48,6 @@ class TagSeeder extends Seeder
                 $tag // Create with all data if not found
             );
         }
+        */
     }
 }
