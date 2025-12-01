@@ -212,24 +212,36 @@ echo "✅ Storage setup completed"
 echo ""
 echo "Caching configuration..."
 
-# IMPORTANT: Clear any existing cache first to ensure APP_KEY is properly loaded
+# IMPORTANT: Clear ALL cache first to ensure fresh start
+php artisan cache:clear
 php artisan config:clear
 php artisan route:clear
 php artisan view:clear
 
-# Now cache with the correct APP_KEY
+# Cache ONLY config and view (NOT routes - causes issues with Livewire signed URLs)
 php artisan config:cache
-php artisan route:cache
 php artisan view:cache
 
-# Verify APP_KEY is in the cached config
+# Verify APP_KEY is loaded correctly
 echo ""
-echo "Verifying cached configuration..."
-if php artisan tinker --execute="echo 'APP_KEY: ' . substr(config('app.key'), 0, 20) . '...';" 2>&1 | grep -q "APP_KEY:"; then
-  echo "✅ APP_KEY successfully cached"
-else
-  echo "⚠️  Warning: Could not verify APP_KEY in cache"
-fi
+echo "Verifying APP_KEY configuration..."
+php artisan tinker --execute="
+\$key = config('app.key');
+if (empty(\$key)) {
+    echo '❌ ERROR: APP_KEY is EMPTY in config';
+    exit(1);
+}
+if (!str_starts_with(\$key, 'base64:')) {
+    echo '❌ ERROR: APP_KEY format invalid: ' . substr(\$key, 0, 20) . '...';
+    exit(1);
+}
+echo '✅ APP_KEY correctly loaded: ' . substr(\$key, 0, 25) . '...';
+echo PHP_EOL;
+echo '✅ APP_KEY length: ' . strlen(\$key) . ' characters';
+" 2>&1
+
+# DO NOT cache routes - this can cause issues with Livewire signed URLs
+echo "⚠️  Note: Route caching disabled to prevent Livewire signed URL issues"
 
 # Create livewire-tmp directory for file uploads
 echo ""
