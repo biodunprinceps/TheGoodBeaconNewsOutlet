@@ -55,18 +55,15 @@ class LivewireUploadServiceProvider extends ServiceProvider
         $paths = [];
 
         foreach ($files as $file) {
-          // Generate unique filename in Livewire's pattern
-          // Format: livewire-file:{originalName}|{hash}
-          $hash = \Illuminate\Support\Str::random(20);
-          $originalName = $file->getClientOriginalName();
-
-          // Livewire uses this specific format
-          $filename = 'livewire-file:' . $originalName . '|' . $hash;
+          // Generate unique filename - simpler format to avoid UTF-8 issues
+          $hash = \Illuminate\Support\Str::random(40);
+          $extension = $file->getClientOriginalExtension();
+          
+          // Use simple filename format
+          $filename = $hash . '.' . $extension;
 
           // Store the file
-          $path = $file->storeAs($directory, $filename, $disk);
-
-          if (!$path) {
+          $path = $file->storeAs($directory, $filename, $disk);          if (!$path) {
             return response()->json([
               'paths' => [],
               'errors' => ['Failed to store file: ' . $originalName]
