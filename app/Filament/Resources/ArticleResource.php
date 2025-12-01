@@ -119,6 +119,9 @@ class ArticleResource extends Resource
                             ])
                             ->maxSize(5120)
                             ->helperText('Upload a featured image (max 5MB). Supports JPG, PNG, WebP.')
+                            ->getUploadedFileNameForStorageUsing(
+                                fn($file): string => static::sanitizeFilename($file->getClientOriginalName())
+                            )
                             ->columnSpanFull(),
                     ]),
 
@@ -133,6 +136,9 @@ class ArticleResource extends Resource
                             ->reorderable()
                             ->downloadable()
                             ->openable()
+                            ->getUploadedFileNameForStorageUsing(
+                                fn($file): string => static::sanitizeFilename($file->getClientOriginalName())
+                            )
                             ->columnSpanFull()
                             ->helperText('Upload up to 10 images for the article gallery. You can drag to reorder.'),
                     ])
@@ -305,5 +311,38 @@ class ArticleResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
+    }
+
+    /**
+     * Sanitize filename to ASCII-only characters to prevent PostgreSQL UTF-8 errors.
+     * Removes or transliterates non-ASCII characters like 0x96 (Windows-1252 en dash).
+     */
+    protected static function sanitizeFilename(string $filename): string
+    {
+        $pathInfo = pathinfo($filename);
+        $baseName = $pathInfo['filename'] ?? 'file';
+        $extension = $pathInfo['extension'] ?? '';
+
+        // Convert to ASCII using transliteration
+        $sanitizedBase = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $baseName);
+
+        if ($sanitizedBase === false || empty($sanitizedBase)) {
+            // If conversion failed, use regex to keep only safe characters
+            $sanitizedBase = preg_replace('/[^a-zA-Z0-9._-]/', '_', $baseName);
+        }
+
+        // Ensure we have a valid base name
+        if (empty($sanitizedBase) || $sanitizedBase === '_') {
+            $sanitizedBase = 'file_' . uniqid();
+        }
+
+        // Sanitize extension
+        $sanitizedExtension = preg_replace('/[^a-zA-Z0-9]/', '', $extension);
+
+        if (empty($sanitizedExtension)) {
+            return $sanitizedBase;
+        }
+
+        return strtolower($sanitizedBase . '.' . $sanitizedExtension);
     }
 }

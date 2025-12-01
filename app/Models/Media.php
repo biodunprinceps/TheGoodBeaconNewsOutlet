@@ -13,14 +13,10 @@ class Media extends BaseMedia
   {
     parent::boot();
 
-    // Sanitize filename and name before saving to prevent UTF-8 encoding errors
+    // Sanitize name and custom_properties before saving to prevent UTF-8 encoding errors
+    // NOTE: We do NOT sanitize file_name because it should match the actual file on disk
     static::saving(function ($media) {
-      // Sanitize file_name - remove any non-ASCII characters
-      if ($media->file_name) {
-        $media->file_name = self::sanitizeToAscii($media->file_name);
-      }
-
-      // Sanitize name - convert to valid UTF-8 or ASCII
+      // Sanitize name - convert to valid UTF-8 (this is just for display)
       if ($media->name) {
         $media->name = self::sanitizeToValidUtf8($media->name);
       }
