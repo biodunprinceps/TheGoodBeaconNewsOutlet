@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Add middleware to sanitize Livewire uploads and catch errors
+        $middleware->append(\App\Http\Middleware\SanitizeLivewireUploads::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // Log all exceptions with ASCII-safe error messages to avoid UTF-8 issues
