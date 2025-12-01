@@ -59,7 +59,7 @@ return [
      *
      * This model is only used in Media Library Pro (https://medialibrary.pro)
      */
-    'temporary_upload_model' => Spatie\MediaLibraryPro\Models\TemporaryUpload::class,
+    'temporary_upload_model' => \Spatie\MediaLibrary\MediaCollections\Models\Media::class,
 
     /*
      * When enabled, Media Library Pro will only process temporary uploads that were uploaded
@@ -76,7 +76,7 @@ return [
     /*
      * This is the class that is responsible for naming generated files.
      */
-    'file_namer' => Spatie\MediaLibrary\Support\FileNamer\DefaultFileNamer::class,
+    'file_namer' => App\Support\SanitizedFileNamer::class,
 
     /*
      * The class that contains the strategy for determining a media file's path.
