@@ -315,34 +315,34 @@ class ArticleResource extends Resource
 
     /**
      * Sanitize filename to ASCII-only characters to prevent PostgreSQL UTF-8 errors.
-     * Removes or transliterates non-ASCII characters like 0x96 (Windows-1252 en dash).
+     * Generates a unique, safe filename while preserving the extension.
      */
     protected static function sanitizeFilename(string $filename): string
     {
-        $pathInfo = pathinfo($filename);
-        $baseName = $pathInfo['filename'] ?? 'file';
-        $extension = $pathInfo['extension'] ?? '';
+        // Get the extension
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-        // Convert to ASCII using transliteration
-        $sanitizedBase = @iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $baseName);
+        // Sanitize extension to be safe
+        $extension = preg_replace('/[^a-zA-Z0-9]/', '', $extension);
 
-        if ($sanitizedBase === false || empty($sanitizedBase)) {
-            // If conversion failed, use regex to keep only safe characters
-            $sanitizedBase = preg_replace('/[^a-zA-Z0-9._-]/', '_', $baseName);
+        // If no valid extension, try to get it from the original
+        if (empty($extension)) {
+            // Try one more time with the full filename
+            $parts = explode('.', $filename);
+            if (count($parts) > 1) {
+                $lastPart = end($parts);
+                $extension = preg_replace('/[^a-zA-Z0-9]/', '', $lastPart);
+            }
         }
 
-        // Ensure we have a valid base name
-        if (empty($sanitizedBase) || $sanitizedBase === '_') {
-            $sanitizedBase = 'file_' . uniqid();
+        // Generate a unique, safe filename using UUID
+        $uniqueName = (string) Str::uuid();
+
+        // Return with extension if we have one
+        if (!empty($extension)) {
+            return strtolower($uniqueName . '.' . $extension);
         }
 
-        // Sanitize extension
-        $sanitizedExtension = preg_replace('/[^a-zA-Z0-9]/', '', $extension);
-
-        if (empty($sanitizedExtension)) {
-            return $sanitizedBase;
-        }
-
-        return strtolower($sanitizedBase . '.' . $sanitizedExtension);
+        return $uniqueName;
     }
 }
