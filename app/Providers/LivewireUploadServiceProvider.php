@@ -55,12 +55,18 @@ class LivewireUploadServiceProvider extends ServiceProvider
         $paths = [];
 
         foreach ($files as $file) {
-          // Generate unique filename - simpler format to avoid UTF-8 issues
+          // Generate unique filename using only ASCII characters
           $hash = \Illuminate\Support\Str::random(40);
-          $extension = $file->getClientOriginalExtension();
 
-          // Use simple filename format
-          $filename = $hash . '.' . $extension;
+          // Get extension and ensure it's ASCII-safe
+          $extension = $file->getClientOriginalExtension();
+          $extension = preg_replace('/[^a-zA-Z0-9]/', '', $extension);
+          if (empty($extension)) {
+            $extension = 'tmp';
+          }
+
+          // Use simple ASCII-only filename format
+          $filename = $hash . '.' . strtolower($extension);
 
           // Store the file
           $path = $file->storeAs($directory, $filename, $disk);
@@ -75,14 +81,16 @@ class LivewireUploadServiceProvider extends ServiceProvider
         }
 
         // Return the response in Livewire's EXACT expected format
+        // Use JSON_UNESCAPED_UNICODE to prevent encoding issues
         return response()->json([
           'paths' => $paths,
           'errors' => []
-        ]);
+        ], 200, [], JSON_UNESCAPED_SLASHES);
       } catch (\Exception $e) {
+        \Log::error('Upload error: ' . $e->getMessage());
         return response()->json([
           'paths' => [],
-          'errors' => [$e->getMessage()]
+          'errors' => ['Upload failed']
         ], 500);
       }
     })->middleware(['web'])->name('livewire.upload-file');
