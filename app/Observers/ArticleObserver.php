@@ -6,9 +6,47 @@ use App\Models\Article;
 use App\Models\User;
 use App\Notifications\ArticlePublishedNotification;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Log;
 
 class ArticleObserver
 {
+    /**
+     * Handle the Article "saving" event.
+     * Sanitize data before saving to prevent UTF-8 errors.
+     */
+    public function saving(Article $article): void
+    {
+        try {
+            // Sanitize text fields to ensure valid UTF-8
+            $textFields = ['title', 'excerpt', 'content', 'meta_title', 'meta_description', 'meta_keywords'];
+
+            foreach ($textFields as $field) {
+                if ($article->isDirty($field) && !empty($article->$field)) {
+                    $value = $article->$field;
+
+                    // Check if the value is valid UTF-8
+                    if (!mb_check_encoding($value, 'UTF-8')) {
+                        // Convert to valid UTF-8
+                        $article->$field = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                    }
+                }
+            }
+
+            // Log the save attempt
+            Log::info('Article saving', [
+                'id' => $article->id,
+                'title' => mb_substr($article->title ?? '', 0, 50),
+                'has_media' => $article->id ? $article->getMedia('featured_image')->count() : 0,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error in ArticleObserver::saving: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+            throw $e;
+        }
+    }
+
     /**
      * Handle the Article "created" event.
      */
