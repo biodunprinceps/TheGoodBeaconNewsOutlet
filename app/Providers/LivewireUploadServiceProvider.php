@@ -30,20 +30,43 @@ class LivewireUploadServiceProvider extends ServiceProvider
       $file = request()->file('file');
 
       if (!$file) {
-        return response()->json(['error' => 'No file uploaded'], 422);
+        return response()->json([
+          'paths' => [],
+          'errors' => ['No file uploaded']
+        ], 422);
       }
 
-      // Generate unique filename
-      $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+      try {
+        // Generate unique filename in Livewire's pattern
+        // Format: livewire-file:{originalName}|{hash}
+        $hash = \Illuminate\Support\Str::random(20);
+        $originalName = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        
+        // Livewire uses this specific format
+        $filename = 'livewire-file:' . $originalName . '|' . $hash;
 
-      // Store the file
-      $path = $file->storeAs($directory, $filename, $disk);
+        // Store the file
+        $path = $file->storeAs($directory, $filename, $disk);
 
-      // Return the response in Livewire's EXACT expected format
-      return response()->json([
-        'paths' => [$path],  // Livewire expects 'paths' array, not 'path'
-        'errors' => [],      // Required by Livewire
-      ]);
+        if (!$path) {
+          return response()->json([
+            'paths' => [],
+            'errors' => ['Failed to store file']
+          ], 500);
+        }
+
+        // Return the response in Livewire's EXACT expected format
+        return response()->json([
+          'paths' => [$path],
+          'errors' => []
+        ]);
+      } catch (\Exception $e) {
+        return response()->json([
+          'paths' => [],
+          'errors' => [$e->getMessage()]
+        ], 500);
+      }
     })->middleware(['web'])->name('livewire.upload-file');
   }
 }
