@@ -35,40 +35,50 @@ class LivewireUploadServiceProvider extends ServiceProvider
       ]);
 
       // Try different possible file field names
-      $file = request()->file('file')
+      $files = request()->file('file')
         ?? request()->file('files')
         ?? request()->file('0');
 
-      if (!$file) {
+      if (!$files) {
         return response()->json([
           'paths' => [],
           'errors' => ['No file uploaded - received fields: ' . implode(', ', array_keys(request()->all()))]
         ], 422);
       }
 
+      // Handle both single file and array of files
+      if (!is_array($files)) {
+        $files = [$files];
+      }
+
       try {
-        // Generate unique filename in Livewire's pattern
-        // Format: livewire-file:{originalName}|{hash}
-        $hash = \Illuminate\Support\Str::random(20);
-        $originalName = $file->getClientOriginalName();
-        $extension = $file->getClientOriginalExtension();
+        $paths = [];
 
-        // Livewire uses this specific format
-        $filename = 'livewire-file:' . $originalName . '|' . $hash;
+        foreach ($files as $file) {
+          // Generate unique filename in Livewire's pattern
+          // Format: livewire-file:{originalName}|{hash}
+          $hash = \Illuminate\Support\Str::random(20);
+          $originalName = $file->getClientOriginalName();
 
-        // Store the file
-        $path = $file->storeAs($directory, $filename, $disk);
+          // Livewire uses this specific format
+          $filename = 'livewire-file:' . $originalName . '|' . $hash;
 
-        if (!$path) {
-          return response()->json([
-            'paths' => [],
-            'errors' => ['Failed to store file']
-          ], 500);
+          // Store the file
+          $path = $file->storeAs($directory, $filename, $disk);
+
+          if (!$path) {
+            return response()->json([
+              'paths' => [],
+              'errors' => ['Failed to store file: ' . $originalName]
+            ], 500);
+          }
+
+          $paths[] = $path;
         }
 
         // Return the response in Livewire's EXACT expected format
         return response()->json([
-          'paths' => [$path],
+          'paths' => $paths,
           'errors' => []
         ]);
       } catch (\Exception $e) {
