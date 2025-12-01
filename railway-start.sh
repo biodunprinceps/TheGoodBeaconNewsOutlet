@@ -1,7 +1,10 @@
 #!/bin/bash
+# Version: NO_SEEDERS_V2 - Seeders completely disabled
+# Updated: 2025-12-01 - Force Railway to use new script
 
-echo "=== Railway Deployment Start ==="
+echo "=== Railway Deployment Start (NO SEEDERS) ==="
 echo "Timestamp: $(date)"
+echo "Script Version: NO_SEEDERS_V2"
 echo ""
 
 # Set PHP configuration for uploads
